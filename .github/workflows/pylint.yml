@@ -16,7 +16,8 @@ jobs:
         python-version: ${{ matrix.python-version }}
     - name: Install dependencies
       run: |
-        python -m pip install --upgrade pip
+        # $CONDA is an environment variable pointing to the root of the miniconda directory
+        $CONDA/bin/conda env update --file /resources/environment/environment.yml --name base
         pip install pylint
     - name: Analysing the code with pylint
       run: |
