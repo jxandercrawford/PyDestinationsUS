@@ -17,7 +17,7 @@ jobs:
     - name: Install dependencies
       run: |
         # $CONDA is an environment variable pointing to the root of the miniconda directory
-        $CONDA/bin/conda env update --file /resources/environment/environment.yml --name base
+        $CONDA/bin/conda env update --file /main/resources/enviroment/environment.yml --name base
         pip install pylint
     - name: Analysing the code with pylint
       run: |
