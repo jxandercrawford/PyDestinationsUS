@@ -2,6 +2,8 @@
 
 A simple ETL project inspired from the original [DestinationsUS](https://github.com/jxandercrawford/DestinationsUS). This is an implmentation is Python.
 
+The conda enviroment for this project can be found in (/resouces/enviroment/enviroment.yml)[/resouces/enviroment/enviroment.yml]. Please create thie enviroment before running with `conda env create -f environment. yml`. Then activate it with `conda activate destinations`. For more information on conda enviroments please visit (conda's documentation)[https://conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html].
+
 ### Usage
 ```
 usage: run.py [-h] -y YEAR -m MONTH [-n NUMBER]
