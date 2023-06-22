@@ -1,7 +1,13 @@
+"""
+File: run.py
+Author: jxandercrawford@gmail.com
+Date: 2023-06-22
+Purpose: Run the BTS data pipeline
+"""
 import argparse
-from src.pipeline import Pipeline
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
+from src.pipeline import Pipeline
 
 def validate_month(month: int) -> bool:
     """
@@ -55,6 +61,26 @@ if __name__ == "__main__":
         help="Optional, the number of months to ingest as an integer starting from the year and month and increasing by 1 month. Must be greater than 0.",
         type=int, default=1
     )
+    parser.add_argument(
+        "-s", "--serverhost",
+        help="Optional, the database host server.",
+        type=str, default="localhost"
+    )
+    parser.add_argument(
+        "-d", "--database",
+        help="Optional, the database name.",
+        type=str, default="flights"
+    )
+    parser.add_argument(
+        "-u", "--user",
+        help="Optional, the database username.",
+        type=str, default="jxan"
+    )
+    parser.add_argument(
+        "-p", "--password",
+        help="Optional, the database user password.",
+        type=str, default=""
+    )
 
     args = parser.parse_args()
     if not (validate_month(args.month) and validate_year(args.year)):
@@ -64,18 +90,18 @@ if __name__ == "__main__":
         print("ERROR: The given number of months (%d) is not valid." % args.number)
         exit(1)
 
-    bts_pipeline = Pipeline({"host": "localhost", "database": "flights", "user": "jxan", "password": ""})
-    date = datetime(args.year, args.month, 1)
+    bts_pipeline = Pipeline({"host": args.serverhost, "database": args.database, "user": args.user, "password": args.password})
+    target_date = datetime(args.year, args.month, 1)
     n_months = args.number
     n_inserted = 0
 
     while n_months > 0:
-        if not validate_date(date):
-            print("ERROR: The month of %s is not valid." % date.strftime("%Y-%m"))
+        if not validate_date(target_date):
+            print("ERROR: The month of %s is not valid." % target_date.strftime("%Y-%m"))
             exit(1)
 
-        n_inserted += bts_pipeline.run(date.year, date.month)
+        n_inserted += bts_pipeline.run(target_date.year, target_date.month)
         n_months -= 1
-        date += relativedelta(months=1)
+        target_date += relativedelta(months=1)
 
     print("%d records inserted." % n_inserted)
