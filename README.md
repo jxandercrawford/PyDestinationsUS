@@ -1,6 +1,6 @@
 # PyDestinationsUS
 
-A simple ETL project inspired from the original [DestinationsUS](). This is an implmentation is Python.
+A simple ETL project inspired from the original [DestinationsUS](https://github.com/jxandercrawford/DestinationsUS). This is an implmentation is Python.
 
 ### Usage
 ```
