@@ -1,6 +1,6 @@
 
-from extract import ExtractBTS
-from database import Database
+from src.extract import ExtractBTS
+from src.database import Database
 import pandas as pd
 
 class Pipeline:
@@ -36,6 +36,6 @@ class Pipeline:
 
     def run(self, year: int, month: int) -> int:
         self.extract_records(year, month)
-        n = len(self.__records)
+        n_inserted = len(self.__records["flight"])
         self.write_records()
-        return n
+        return n_inserted
