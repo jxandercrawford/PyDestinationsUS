@@ -1,7 +1,5 @@
 # PyDestinationsUS
 
-*\*\*TODO: Add db config options.*
-
 A simple ETL project inspired from the original [DestinationsUS](https://github.com/jxandercrawford/DestinationsUS). This is an implmentation is Python.
 
 This pipeline will pull data from the [Bureau of Transportation Statistics](https://transtats.bts.gov) and load them into a PostgreSQL database. The schema for the database is shown below.
