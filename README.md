@@ -2,7 +2,11 @@
 
 A simple ETL project inspired from the original [DestinationsUS](https://github.com/jxandercrawford/DestinationsUS). This is an implmentation is Python.
 
-The conda enviroment for this project can be found in (/resouces/enviroment/enviroment.yml)[/resouces/enviroment/enviroment.yml]. Please create thie enviroment before running with `conda env create -f environment. yml`. Then activate it with `conda activate destinations`. For more information on conda enviroments please visit (conda's documentation)[https://conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html].
+This pipeline will pull data from the [Bureau of Transportation Statistics](https://transtats.bts.gov) and load them into a PostgreSQL database. The schema for the database is shown below.
+
+![erd](resources/database/erd.png)
+
+The conda enviroment for this project can be found in [/resouces/enviroment/enviroment.yml](/resouces/enviroment/enviroment.yml). Please create thie enviroment before running with `conda env create -f environment. yml`. Then activate it with `conda activate destinations`. For more information on conda enviroments please visit [conda's documentation](https://conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html).
 
 ### Usage
 ```
