@@ -1,9 +1,17 @@
-
+"""
+File: pipeline.py
+Author: jxandercrawford@gmail.com
+Date: 2023-06-22
+Purpose: A pipeline for Bereau of Transporation Statistics flight data.
+"""
 from src.extract import ExtractBTS
 from src.database import Database
-import pandas as pd
 
 class Pipeline:
+    """
+    A pipeline for Bereau of Transporation Statistics flight data.
+    :param database_config (dict): The host, database, user, and password for database connections.
+    """
 
     def __init__(self, database_config: dict):
         self.__extracter = ExtractBTS("data/")
@@ -37,11 +45,11 @@ class Pipeline:
         if not self.__records:
             raise RuntimeError("The pipeline is not in the correct state. Please run `extract_records()` before writing.")
 
-        self.__db.executeBatch(
+        self.__db.execute_batch(
             "INSERT INTO airport(id, name, city, state) VALUES(%s, %s, %s, %s) ON CONFLICT DO NOTHING;", 
             set(self.__records["destination"]).union(set(self.__records["origin"]))
         )
-        self.__db.executeBatch(
+        self.__db.execute_batch(
             "INSERT INTO flight(date, origin, destination) VALUES(%s, %s, %s) ON CONFLICT DO NOTHING;", 
             self.__records["flight"]
         )

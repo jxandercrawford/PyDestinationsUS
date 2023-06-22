@@ -1,7 +1,7 @@
 """
 database.py
 Date: 3/2022
-Updated: 8/11/2022
+Updated: 6/22/2023
 Author: xc383@drexel.edu
 Desc: A Postgresql database interface
 REF: https://github.com/NCATSTranslator/Explanatory-Agent/blob/master/xARA-ETL/src/clsDatabase.py
@@ -13,10 +13,6 @@ REF: https://github.com/NCATSTranslator/Explanatory-Agent/blob/master/xARA-ETL/s
 import psycopg2
 import psycopg2.extras
 import pandas as pd
-from tqdm import tqdm
-import logging
-import os
-
 
 class Database:
     """
@@ -62,7 +58,7 @@ class Database:
         self.disconnect()
         self.connect()
 
-    def execute(self, sql, expectingReturn=False):
+    def execute(self, sql, expecting_return=False):
         """
         Execute a sql query, and optional return results as a pandas DataFrame
         :param sql: Any sql statement
@@ -72,7 +68,7 @@ class Database:
         self.connect()
         cursor = self.connection.cursor()
         cursor.execute(sql)
-        if expectingReturn:
+        if expecting_return:
             cols = []
             for desc in cursor.description:
                 cols.append(desc[0])
@@ -81,7 +77,7 @@ class Database:
             self.connection.commit()
         cursor.close()
 
-    def executeBatch(self, sql, values):
+    def execute_batch(self, sql, values):
         """
         Execute a sql query in batch, useful for insert and update
         :param sql: An update sql statement
@@ -91,15 +87,16 @@ class Database:
 
         self.connect()
         cursor = self.connection.cursor()
-        psycopg2.extras.execute_batch(cursor, 
-                sql,
-                values
-            )
+        psycopg2.extras.execute_batch(
+            cursor,
+            sql,
+            values
+        )
         self.connection.commit()
         cursor.close()
 
 
-    def uploadTableViaDataFrame(self, df, tableName, clearTable=False, conflictStatement="", returnColumns=None, shouldCrashOnBadRow=True):
+    def upload_table_via_dataframe(self, df: pd.DataFrame, table_name: str, clear_table: bool=False, conflict_statement: str="", return_columns: list=None, should_crash_on_bad_row: bool=True):
         """
         Uploads a pandas DataFrame to a given Postgresql table via insert statements
         :param df: A pandas DataFrame with column names which match the target table column names
@@ -114,27 +111,26 @@ class Database:
 
         self.connect()
         cursor = self.connection.cursor()
-        if clearTable:
-            clearTable_sql = "TRUNCATE " + tableName + ";"
-            cursor.execute(clearTable_sql)
+        if clear_table:
+            cursor.execute("TRUNCATE " + table_name + ";")
 
-        returnStatement = ""
-        return_values = returnColumns != None
+        return_statement = ""
+        return_values = return_columns is not None
         if return_values:
-            returnStatement = "RETURNING " + ", ".join(returnColumns)
+            return_statement = "RETURNING " + ", ".join(return_columns)
         
         try:
             values = psycopg2.extras.execute_values(
                 cursor, 
-                "insert into " + tableName + "(" + ', '.join(df.columns) + ")\nvalues %s " + conflictStatement + " " + returnStatement + ";",
+                "insert into " + table_name + "(" + ', '.join(df.columns) + ")\nvalues %s " + conflict_statement + " " + return_statement + ";",
                 df.values.tolist(),
                 page_size=len(df),
                 fetch=return_values
             )
             self.connection.commit()
-        except:
-            if shouldCrashOnBadRow:
-                raise
+        except e as Exception:
+            if should_crash_on_bad_row:
+                raise e
 
         if return_values:
             cols = []
@@ -151,15 +147,15 @@ class Database:
 
 if __name__ == '__main__':
 
+    credentials = {"host": "localhost", "database": "flights", "user": "jxan", "password": ""}
+
     print("Connecting to database")
-    db = Database()
+    db = Database(**credentials)
     db.connect()
 
     print("Querying database")
-    df = db.execute(sql="select current_timestamp", expectingReturn=True)
+    df = db.execute(sql="select current_timestamp", expecting_return=True)
     print(df)
 
     print("Disconnecting from database")
     db.disconnect()
-
-

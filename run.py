@@ -4,23 +4,57 @@ from datetime import datetime
 from dateutil.relativedelta import relativedelta
 
 def validate_month(month: int) -> bool:
+    """
+    Validate month input.
+    :param month (int): Month to validate.
+    :returns: Bool if valid.
+    """
     return month > 0 and month < 13
 
 def validate_year(year: int) -> bool:
+    """
+    Validate year input.
+    :param year (int): Year to validate.
+    :returns: Bool if valid.
+    """
     return year > 1886
 
 def validate_number(number: int) -> bool:
+    """
+    Validate number input.
+    :param number (int): Number to validate.
+    :returns: Bool if valid.
+    """
     return number > 0
 
 def validate_date(date: datetime) -> bool:
+    """
+    Validate date input.
+    :param date (int): Date to validate.
+    :returns: Bool if valid.
+    """
     return date < datetime.now()
 
 if __name__ == "__main__":
 
-    parser = argparse.ArgumentParser(description="Run the Bereau of Transporation Statistics flight data pipeline.")
-    parser.add_argument("-y", "--year", help="The year to target as an integer.", required=True, type=int)
-    parser.add_argument("-m", "--month", help="The year to target as an integer.", required=True, type=int)
-    parser.add_argument("-n", "--number", help="Optional, the number of months to ingest as an integer starting from the year and month and increasing by 1 month. Must be greater than 0.", type=int, default=1)
+    parser = argparse.ArgumentParser(
+        description="Run the Bereau of Transporation Statistics flight data pipeline."
+    )
+    parser.add_argument(
+        "-y", "--year", 
+        help="The year to target as an integer.",
+        required=True, type=int
+    )
+    parser.add_argument(
+        "-m", "--month",
+        help="The year to target as an integer.",
+        required=True, type=int
+    )
+    parser.add_argument(
+        "-n", "--number",
+        help="Optional, the number of months to ingest as an integer starting from the year and month and increasing by 1 month. Must be greater than 0.",
+        type=int, default=1
+    )
 
     args = parser.parse_args()
     if not (validate_month(args.month) and validate_year(args.year)):

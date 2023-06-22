@@ -1,3 +1,9 @@
+"""
+File: extract.py
+Author: jxandercrawford@gmail.com
+Date: 2023-06-22
+Purpose: A component of a pipeline for Bereau of Transporation Statistics flight data.
+"""
 from io import BytesIO
 from urllib.request import urlopen
 from zipfile import ZipFile
@@ -11,6 +17,10 @@ import ssl
 SSL_CONTEXT = ssl._create_unverified_context()
 
 class ExtractBTS:
+    """
+    Extraction component for the  Bereau of Transporation Statistics flight data pipeline.
+    :param download_path (str): Path to temporaryly download files to.
+    """
 
     def __init__(self, download_path: str):
         self.__download_path = download_path
@@ -30,8 +40,8 @@ class ExtractBTS:
         file_name = self.__file_name_pattern % (year, month)
 
         with urlopen(url, context=SSL_CONTEXT) as resp:
-            with ZipFile(BytesIO(resp.read())) as zi:
-                zi.extract(file_name, self.__download_path)
+            with ZipFile(BytesIO(resp.read())) as zip_file:
+                zip_file.extract(file_name, self.__download_path)
 
         return self.__download_path + file_name
 
@@ -101,8 +111,8 @@ class ExtractBTS:
         """
         records = {"origin": [], "destination": [], "flight": []}
 
-        with open(file_path, "r") as fi:
-            doc = csv.reader(fi, delimiter=",", quotechar="\"")
+        with open(file_path, "r", encoding="utf-8") as date_file:
+            doc = csv.reader(date_file, delimiter=",", quotechar="\"")
             header = True
             for row in doc:
                 if not header:
