@@ -6,7 +6,7 @@ This pipeline will pull data from the [Bureau of Transportation Statistics](http
 
 ![erd](resources/database/erd.png)
 
-The conda enviroment for this project can be found in [/resouces/enviroment/enviroment.yml](/resouces/enviroment/enviroment.yml). Please create thie enviroment before running with `conda env create -f environment. yml`. Then activate it with `conda activate destinations`. For more information on conda enviroments please visit [conda's documentation](https://conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html).
+The conda enviroment for this project can be found in [/resouces/enviroment/enviroment.yml](/resources/enviroment/environment.yml). Please create thie enviroment before running with `conda env create -f environment. yml`. Then activate it with `conda activate destinations`. For more information on conda enviroments please visit [conda's documentation](https://conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html).
 
 ### Usage
 ```
