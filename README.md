@@ -1,6 +1,6 @@
 # PyDestinationsUS
 
-**\*\ TODO: Add db config options.*
+*\*\*TODO: Add db config options.*
 
 A simple ETL project inspired from the original [DestinationsUS](https://github.com/jxandercrawford/DestinationsUS). This is an implmentation is Python.
 
