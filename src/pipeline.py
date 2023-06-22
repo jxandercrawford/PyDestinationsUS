@@ -46,11 +46,11 @@ class Pipeline:
             raise RuntimeError("The pipeline is not in the correct state. Please run `extract_records()` before writing.")
 
         self.__db.execute_batch(
-            "INSERT INTO airport(id, name, city, state) VALUES(%s, %s, %s, %s) ON CONFLICT DO NOTHING;", 
+            "INSERT INTO airport(id, name, city, state) VALUES(%s, %s, %s, %s) ON CONFLICT DO NOTHING;",
             set(self.__records["destination"]).union(set(self.__records["origin"]))
         )
         self.__db.execute_batch(
-            "INSERT INTO flight(date, origin, destination) VALUES(%s, %s, %s) ON CONFLICT DO NOTHING;", 
+            "INSERT INTO flight(date, origin, destination) VALUES(%s, %s, %s) ON CONFLICT DO NOTHING;",
             self.__records["flight"]
         )
 

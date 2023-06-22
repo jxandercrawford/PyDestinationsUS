@@ -16,6 +16,7 @@ import ssl
 
 SSL_CONTEXT = ssl._create_unverified_context()
 
+
 class ExtractBTS:
     """
     Extraction component for the  Bereau of Transporation Statistics flight data pipeline.
@@ -24,7 +25,7 @@ class ExtractBTS:
 
     def __init__(self, download_path: str):
         self.__download_path = download_path
-        
+
         self.__base_url = "https://transtats.bts.gov/PREZIP/"
         self.__url_file_pattern = "On_Time_Reporting_Carrier_On_Time_Performance_1987_present_%d_%d.zip"
         self.__file_name_pattern = "On_Time_Reporting_Carrier_On_Time_Performance_(1987_present)_%d_%d.csv"
